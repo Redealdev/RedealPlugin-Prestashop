@@ -1,0 +1,2 @@
+# prestashopredeal
+Redeal Configuration
