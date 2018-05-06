@@ -54,18 +54,7 @@ class pgredealtask extends Module
         return true;
     }
 
-    public function hookDisplayFooter()
-    {
-        $googletagmanager = trim(Configuration::get('PG_REDEAL_GTM'));
-        if ($googletagmanager != '') {
-            $this->context->smarty->assign(array(
-                'googletagmanager' => $googletagmanager,
-            ));
-            return $this->display(__FILE__, 'displayFooter.tpl');
-
-        }
-
-    }
+ 
     public function enableByDefault()
     {
         Configuration::updateValue('PG_REDEAL_ENABLE', 1);
@@ -127,42 +116,4 @@ class pgredealtask extends Module
         return $dealdata;
     }
 
-    public function getPhone($address)
-    {
-        return ($address->phone != '') ? $address->phone : $address->phone_mobile;
-
-    }
-    public function hookDisplayHeader()
-    {
-        $googletagmanager = trim(Configuration::get('PG_REDEAL_GTM'));
-        if (Configuration::get('PG_REDEAL_ENABLE') == 1) {
-            $context = Context::getContext();
-            if ($context->controller->php_self == 'order-confirmation') {
-                $id_order = Tools::getValue('id_order');
-                $this->context->smarty->assign(array(
-                    'redealdata'       => Tools::jsonEncode($this->extractOrder($id_order)),
-                    'googletagmanager' => $googletagmanager,
-                ));
-                return $this->display(__FILE__, 'dealconfirm.tpl');
-            }
-            return $this->display(__FILE__, 'displayHeader.tpl');
-
-        }
-    }
-
-    public function getContent()
-    {
-        $sv = 'no';
-        if (Tools::isSubmit('saveredealtaskconfig')) {
-
-            Configuration::updateValue('PG_REDEAL_ENABLE', Tools::getValue('pgredealenable'));
-            Configuration::updateValue('PG_REDEAL_GTM', Tools::getValue('pggtagmanager'));
-
-            $sv = 'yes';
-        }
-        $this->context->smarty->assign(array('pgredealenable' => Configuration::get('PG_REDEAL_ENABLE'), 'pggtagmanager' => Configuration::get('PG_REDEAL_GTM'), 'sv' => $sv));
-
-        return $this->display(__FILE__, 'getcontent.tpl');
-    }
-
-}
+    
