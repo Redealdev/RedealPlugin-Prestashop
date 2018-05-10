@@ -4,8 +4,8 @@
  *
  * ReDeal
  *
- *  @author    Rapson Technology
- *  @copyright 2018 Rapson Technology
+ *  @author    Paragon Kingsley
+ *  @copyright 2017 Paragon Kingsley
  *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License ("AFL") v. 3.0
  */
 //@ini_set('display_errors', 'on');
