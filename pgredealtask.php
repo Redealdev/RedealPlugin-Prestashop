@@ -1,11 +1,13 @@
 <?php
 /**
- * DESCRIPTION.
- *
- * ReDeal
- *
- *  @author    Paragon Kingsley
- *  @copyright 2017 Paragon Kingsley
+ * Plugin Name: Redeal Referral Marketing
+ * Plugin URI: https://www.redeal.se
+ * Description: Redeal Referral Marketing
+ * Version: 1.0
+ * Author: Redeal STHLM AB
+ * Author URI: https://www.redeal.se/en/get-started
+ * License: GPL2
+ *  @copyright 2018 Redeal Referral Marketing
  *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License ("AFL") v. 3.0
  */
 //@ini_set('display_errors', 'on');
@@ -21,7 +23,7 @@ class pgredealtask extends Module
         $this->name                   = 'pgredealtask';
         $this->tab                    = 'front_office_features';
         $this->version                = '1.0.0';
-        $this->author                 = 'Paragon Kingsley';
+        $this->author                 = 'Redeal STHLM AB';
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
         $this->bootstrap              = true;
         $this->need_instance          = 0;
