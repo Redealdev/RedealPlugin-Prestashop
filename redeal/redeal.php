@@ -306,6 +306,16 @@ class redeal extends Module
         
         $values = $this->getConfigValues();
         $context = Context::getContext();
+        $referer = '';
+        $campaignId = '';
+        if(isset($_GET['referer'])){
+            $referer = $_GET['referer'];
+        }
+        if(isset($_GET['campaignId'])){
+            $campaignId = $_GET['campaignId'];   
+        }
+        
+        
             
             if ($context->controller->php_self == 'order-confirmation' && $values['enable_disable'] == '1') {
                 
@@ -313,6 +323,8 @@ class redeal extends Module
 
                 $id_order = Tools::getValue('id_order');
                 
+                
+               
                 $this->context->smarty->assign(array(
 
                     'redealdata'       => Tools::jsonEncode($this->extractOrder($id_order)),
@@ -329,7 +341,11 @@ class redeal extends Module
 
         $this->config_values = array('googletagmanager' => $values['gtm_id']);
         
-        $this->smarty->assign($this->config_values);
+        $this->smarty->assign(array(
+                $this->config_values,
+                'referer' => $referer,
+                'campaignId' => $campaignId,
+            ));
         
         return $this->display(__FILE__, $params['tpl'] . '.tpl');
     }
@@ -342,7 +358,7 @@ class redeal extends Module
     {
 
         $order = new Order((int) $id_order);
-
+        
         if (is_object($order)) {
 
             $customer    = new Customer($order->id_customer);
@@ -384,8 +400,12 @@ class redeal extends Module
             }
 
             $tax      = $order->total_paid_tax_incl - $order->total_paid_tax_excl;
+            
+            $price = $order->total_products - $order->total_discounts;
+            
+            $total = $tax + $order->total_shipping + $price;
 
-            $dealdata = ['id' => $id_order, 'total' => $order->total_paid, 'price' => $order->total_products, 'tax' => $tax, 'shipping' => $order->total_shipping, 'currency' => $currency->iso_code, 'country' => $country->iso_code, 'language' => $lang->iso_code, 'name' => $customer->firstname, 'email' => $customer->email, 'phone' => $this->getPhone($address), 'coupons' => $this->getCoupons($id_order), 'products' => $products];
+            $dealdata = ['id' => $id_order, 'total' => $total, 'price' => $price, 'tax' => $tax, 'shipping' => $order->total_shipping, 'currency' => $currency->iso_code, 'country' => $country->iso_code, 'language' => $lang->iso_code, 'name' => $customer->firstname, 'email' => $customer->email, 'phone' => $this->getPhone($address), 'coupons' => $this->getCoupons($id_order), 'products' => $products];
 
         }
 
