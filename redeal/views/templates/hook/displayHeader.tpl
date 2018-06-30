@@ -43,7 +43,7 @@
 
 {/if}
 
-{if $page_name=='index--'}
+{if $page_name=='index' and $referer == 'Redeal' and $campaignId != ''}
 
     {literal}
 

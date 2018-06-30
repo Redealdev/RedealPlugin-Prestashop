@@ -306,6 +306,14 @@ class redeal extends Module
         
         $values = $this->getConfigValues();
         $context = Context::getContext();
+        $referer = '';
+        $campaignId = '';
+        if(isset($_GET['referer'])){
+            $referer = $_GET['referer'];
+        }
+        if(isset($_GET['campaignId'])){
+            $campaignId = $_GET['campaignId'];   
+        }
             
             if ($context->controller->php_self == 'order-confirmation' && $values['enable_disable'] == '1') {
                 
@@ -329,7 +337,11 @@ class redeal extends Module
 
         $this->config_values = array('googletagmanager' => $values['gtm_id']);
         
-        $this->smarty->assign($this->config_values);
+        $this->smarty->assign(array(
+                $this->config_values,
+                'referer' => $referer,
+                'campaignId' => $campaignId,
+       ));
         
         return $this->display(__FILE__, $params['tpl'] . '.tpl');
     }
