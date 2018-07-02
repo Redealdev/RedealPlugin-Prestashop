@@ -27,7 +27,7 @@ class redeal extends Module
     {
         $this->name = 'redeal'; // internal identifier, unique and lowercase
         $this->tab = 'front_office_features'; // backend module coresponding category
-        $this->version = '1.0.3'; // version number for the module
+        $this->version = '1.0.4'; // version number for the module
         $this->author = 'Redeal STHLM AB'; // module author
         $this->need_instance = 0; // load the module when displaying the "Modules" page in backend
         $this->bootstrap = true;
@@ -113,11 +113,7 @@ class redeal extends Module
         switch ($this->getPostSubmitValue()) {
             /* save module configuration */
             case 'saveConfig':
-                
-//                echo '<pre>';
-//                print_r($this->config_values);
-//                echo '</pre>';
-//                exit;
+
                 $config_keys = array_keys($this->config_values);
                 unset($config_keys['quote']); // language field was set
 
@@ -395,9 +391,17 @@ class redeal extends Module
 
             }
 
-            $tax      = $order->total_paid_tax_incl - $order->total_paid_tax_excl;
-
-            $dealdata = ['id' => $id_order, 'total' => $order->total_paid, 'price' => $order->total_products, 'tax' => $tax, 'shipping' => $order->total_shipping, 'currency' => $currency->iso_code, 'country' => $country->iso_code, 'language' => $lang->iso_code, 'name' => $customer->firstname, 'email' => $customer->email, 'phone' => $this->getPhone($address), 'coupons' => $this->getCoupons($id_order), 'products' => $products];
+            $tax = round($order->total_paid_tax_incl - $order->total_paid_tax_excl, 2);
+            
+            $price = round($order->total_products - $order->total_discounts, 2);
+           
+            $discount = round($order->total_discounts, 2);
+            
+            $total = round($tax + $order->total_shipping + $price, 2);
+            
+            $revenue = round(($order->total_products + $order->total_shipping ) - $order->total_discounts, 2);
+            
+            $dealdata = ['id' => $id_order, 'total' => $total, 'revenue'=> $revenue, 'price' => $price,'discount' => $order->total_discounts,'tax' => $tax, 'shipping' => $order->total_shipping, 'currency' => $currency->iso_code, 'country' => $country->iso_code, 'language' => $lang->iso_code, 'name' => $customer->firstname, 'email' => $customer->email, 'phone' => $this->getPhone($address), 'coupons' => $this->getCoupons($id_order), 'products' => $products];
 
         }
 

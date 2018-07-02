@@ -1,26 +1,8 @@
-{**
-
- * Plugin Name: Redeal Referral Marketing
-
- * Description: Redeal Referral Marketing
-
- * Version: 1.0
-
- * Author: Redeal STHLM AB
-
- * License: GPL2
-
- * @copyright 2018 Redeal Referral Marketing
-
- *}
-
- 
-
- {*
+{*
 
   *This template is call in Header and below code is use for add google tag manager in site.
 
- *}
+*}
 
 
 
@@ -86,15 +68,7 @@
 
 {/if}
 
-
-
-{if $page_name=='index' and $referer == 'Redeal'}
-
-
-
     {literal}
-
-
 
         <script type="text/javascript">
 
@@ -134,15 +108,17 @@
 
 (window, document, 'script', window.location.protocol + '//widget.redeal.se/js/redeal.js', 'redeal');  
 
-redeal();
+
 
         </script>
 
-
-
     {/literal}
 
-
-
- {/if}
+    {if $page_name=='order-confirmation'}
+          {literal}
+              <script type="text/javascript">
+                  redeal();
+              </script>
+          {/literal}
+    {/if}
 
