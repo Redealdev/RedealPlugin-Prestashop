@@ -27,7 +27,7 @@ class redeal extends Module
     {
         $this->name = 'redeal'; // internal identifier, unique and lowercase
         $this->tab = 'front_office_features'; // backend module coresponding category
-        $this->version = '0.0.1'; // version number for the module
+        $this->version = '1.0.2'; // version number for the module
         $this->author = 'Redeal STHLM AB'; // module author
         $this->need_instance = 0; // load the module when displaying the "Modules" page in backend
         $this->bootstrap = true;
@@ -39,7 +39,7 @@ class redeal extends Module
 
         $this->confirmUninstall = $this->l('Are you sure you want to uninstall?'); // confirmation message at uninstall
 
-        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
     }
 
     /**
@@ -113,11 +113,6 @@ class redeal extends Module
         switch ($this->getPostSubmitValue()) {
             /* save module configuration */
             case 'saveConfig':
-                
-//                echo '<pre>';
-//                print_r($this->config_values);
-//                echo '</pre>';
-//                exit;
                 $config_keys = array_keys($this->config_values);
                 unset($config_keys['quote']); // language field was set
 
@@ -130,7 +125,6 @@ class redeal extends Module
                 }
 
             // it continues to default
-
             default:
                 $output .= $this->renderForm();
                 break;
@@ -399,13 +393,17 @@ class redeal extends Module
 
             }
 
-            $tax      = $order->total_paid_tax_incl - $order->total_paid_tax_excl;
+            $tax = round($order->total_paid_tax_incl - $order->total_paid_tax_excl, 2);
             
-            $price = $order->total_products - $order->total_discounts;
+            $price = round($order->total_products - $order->total_discounts, 2);
+           
+            $discount = round($order->total_discounts, 2);
             
-            $total = $tax + $order->total_shipping + $price;
+            $total = round($tax + $order->total_shipping + $order->total_products, 2) - round($order->total_discounts, 2);
+            
+            $revenue = round(($order->total_products + $order->total_shipping ) - $order->total_discounts, 2);
 
-            $dealdata = ['id' => $id_order, 'total' => $total, 'price' => $price, 'tax' => $tax, 'shipping' => $order->total_shipping, 'currency' => $currency->iso_code, 'country' => $country->iso_code, 'language' => $lang->iso_code, 'name' => $customer->firstname, 'email' => $customer->email, 'phone' => $this->getPhone($address), 'coupons' => $this->getCoupons($id_order), 'products' => $products];
+            $dealdata = ['id' => $id_order, 'total' => $total, 'revenue'=> $revenue, 'price' => $price,'discount' => $order->total_discounts,'tax' => $tax, 'shipping' => $order->total_shipping, 'currency' => $currency->iso_code, 'country' => $country->iso_code, 'language' => $lang->iso_code, 'name' => $customer->firstname, 'email' => $customer->email, 'phone' => $this->getPhone($address), 'coupons' => $this->getCoupons($id_order), 'products' => $products];
 
         }
 
@@ -465,9 +463,7 @@ class redeal extends Module
 
       SELECT name FROM ' . _DB_PREFIX_ . 'category_lang WHERE id_category=' . (int) $id_category . ' AND id_lang=' . (int) Configuration::get('PS_LANG_DEFAULT') . ' AND id_shop =' . (int) Configuration::get('PS_SHOP_DEFAULT'));
 
-
-
-        return $name;
+       return $name;
 
     }
 }

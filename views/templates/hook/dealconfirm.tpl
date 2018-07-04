@@ -1,14 +1,5 @@
-{**
-* Plugin Name: Redeal Referral Marketing
-* Description: Redeal Referral Marketing
-* Version: 1.0
-* Author: Redeal STHLM AB
-* License: GPL2
-* @copyright 2018 Redeal Referral Marketing
-*}
-
 {*
-*This template will call when orde will be confirmed and below code is use for call redeal.js and display popup in order confirmation page.
+*This template will call when order will be confirmed and below code is use for call redeal.js and display popup in order confirmation page.
 *}
 
 
