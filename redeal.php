@@ -27,7 +27,7 @@ class redeal extends Module
     {
         $this->name = 'redeal'; // internal identifier, unique and lowercase
         $this->tab = 'front_office_features'; // backend module coresponding category
-        $this->version = '1.0.2'; // version number for the module
+        $this->version = '1.0.1'; // version number for the module
         $this->author = 'Redeal STHLM AB'; // module author
         $this->need_instance = 0; // load the module when displaying the "Modules" page in backend
         $this->bootstrap = true;
