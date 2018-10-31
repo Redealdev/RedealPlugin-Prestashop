@@ -27,7 +27,7 @@ class redeal extends Module
     {
         $this->name = 'redeal'; // internal identifier, unique and lowercase
         $this->tab = 'advertising_marketing'; // backend module coresponding category
-        $this->version = '1.0.2'; // version number for the module
+        $this->version = '1.0.3'; // version number for the module
         $this->author = 'Redeal STHLM AB'; // module author
         $this->need_instance = 0; // load the module when displaying the "Modules" page in backend
         $this->bootstrap = true;
@@ -77,7 +77,7 @@ class redeal extends Module
     {
         $this->config_values = array(
             'enable_disable' => '0',
-            'gtm_id' => '',
+            //'gtm_id' => '',
         );
        
         return $this->setConfigValues($this->config_values);
@@ -163,14 +163,6 @@ class redeal extends Module
                                     )
                             ),
                     ), 
-                    array(
-                        'label' => $this->l('GTM ID'),
-                        'name' => 'gtm_id',
-                        'type' => 'text',
-                    ),
-                    
-                    
-                    
                 ),
                 
                 'submit' => array(
@@ -285,7 +277,7 @@ class redeal extends Module
         
         !isset($params['tpl']) && $params['tpl'] = 'displayFooter';
 
-        $this->config_values = array('googletagmanager' => $values['gtm_id']);
+        //$this->config_values = array('googletagmanager' => $values['gtm_id']);
         
         $this->smarty->assign($this->config_values);
         
@@ -323,7 +315,7 @@ class redeal extends Module
 
                     'redealdata'       => Tools::jsonEncode($this->extractOrder($id_order)),
 
-                    'googletagmanager' => $values['gtm_id'],
+                    //'googletagmanager' => $values['gtm_id'],
 
                 ));
                 
@@ -333,7 +325,7 @@ class redeal extends Module
             
         !isset($params['tpl']) && $params['tpl'] = 'displayHeader';
 
-        $this->config_values = array('googletagmanager' => $values['gtm_id']);
+       // $this->config_values = array('googletagmanager' => $values['gtm_id']);
         
         $this->smarty->assign(array(
                 $this->config_values,
